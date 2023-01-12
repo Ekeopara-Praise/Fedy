@@ -34,5 +34,5 @@ class FedyAPI:
         return process_table
 
 
-class Application(FedyAPI):
+class StreamlitApp(FedyAPI):
     pass
