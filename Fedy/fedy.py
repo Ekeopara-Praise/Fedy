@@ -17,13 +17,21 @@ class FedyAPI:
         payload = {'api_key': api_key, 'q': self.search_keyword, 'p': self.number_of_papers}  # Payload for the GET \
         # request
         response = requests.get(search_api_url, headers=headers, params=payload).json()
-
         # Convert response to Pandas DataFrame
         return pd.DataFrame(response['records'])
 
     # Function for processing the data
     def Processed_Table(self):
+        process_table = pd.DataFrame()
         messy_data = self.API_Call()
+
+        process_table['title'] = messy_data['title']
+        process_table['creators'] = messy_data['creators'].apply(lambda x: x['creator'])
+        process_table['year'] = messy_data['publicationDate']
+        process_table['doi'] = messy_data['url'].apply(lambda x: x[0]['value'])
+        process_table['abstract'] = messy_data['abstract']
+
+        return process_table
 
 
 class Application(FedyAPI):
