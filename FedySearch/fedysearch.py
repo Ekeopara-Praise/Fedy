@@ -73,7 +73,7 @@ with col1:
     st.write("")
 
 with col2:
-    st.image("logo.PNG")
+    #st.image("logo.PNG")
     st.write("")
 
 with col3:
