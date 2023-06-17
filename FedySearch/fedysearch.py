@@ -44,7 +44,7 @@ class Arxiv(FedySearch):
 
         url = f'http://export.arxiv.org/api/query?search_query=all:{self.search_keyword}&start=0&max_results={self.number_of_papers}'
         data = requests.get(url)
-        soup = BeautifulSoup(data.content, 'xml')
+        soup = BeautifulSoup(data.content, 'html.parser')
 
         titles = [title.text for title in soup.find_all('title')[-self.number_of_papers:]]
         paper_links = [paperlink.text for paperlink in soup.find_all('id')[-self.number_of_papers:]]
