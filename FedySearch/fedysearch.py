@@ -30,7 +30,7 @@ class Springer(FedySearch):
         messy_data = self.Springer_API_Call()
 
         processed_table['title'] = messy_data['title']
-        processed_table['authors'] = messy_data['creators'].apply(lambda x: [i['creator'] for i in x])
+       # processed_table['authors'] = messy_data['creators'].apply(lambda x: [i['creator'] for i in x])
         processed_table['date'] = messy_data['publicationDate']
         processed_table['doi'] = messy_data['url'].apply(lambda x: x[0]['value'])
         processed_table['abstract'] = messy_data['abstract']
@@ -73,7 +73,8 @@ with col1:
     st.write("")
 
 with col2:
-    #st.image("logo.PNG")
+    st.title(".......FedySearch 📚")
+    st.markdown("*An API-Powered Publication Searching Tool*")
     st.write("")
 
 with col3:
