@@ -14,7 +14,17 @@ class FedySearch:
 
 class Springer(FedySearch):
     # Function to call the API and retrieve the data
-    def Springer_API_Call(self):
+    def Springer_API_Call(self)-> pd.Dataframe:
+        """
+        Make API Call to Springer for Academic Publication Data
+        
+        This method makes an API call to the Springer API to retrieve academic publication data based
+        on provided search criteria. The retrieved data is converted into a Pandas DataFrame.
+        
+        Returns:
+        pd.DataFrame: A DataFrame containing raw academic publication data from the Springer API.
+        """
+        
         api_key = '790713ded66fe0dd637dd61f70925146'
         headers = {'Authorization': 'Bearer {}'.format(api_key)}  # Setting the authorization key in the headers
         search_api_url = 'https://api.springernature.com/metadata/json'  # URL for the API endpoint
@@ -25,7 +35,18 @@ class Springer(FedySearch):
         return pd.DataFrame(response['records'])
 
     # Function for processing the data
-    def Springer_Processed_Table(self):
+    def Springer_Processed_Table(self) -> pd.DataFrame:
+        """
+        Process Academic Publication Data from Springer API
+        
+        This method retrieves academic publication data from the Springer API through the
+        'Springer_API_Call' method and processes it into a structured Pandas DataFrame.
+        
+        Returns:
+            pd.DataFrame: A DataFrame containing processed publication data with columns
+            for title, publication date, DOI, and abstract.
+        """
+        
         processed_table = pd.DataFrame()
         messy_data = self.Springer_API_Call()
 
@@ -40,7 +61,16 @@ class Springer(FedySearch):
 
 class Arxiv(FedySearch):
 
-    def Arxiv_Processed_Table(self):
+    def Arxiv_Processed_Table(self)-> pd.DataFrame:
+        """
+        Process Academic Publication Data from arXiv API
+        
+        This method makes an API call to the arXiv API to retrieve academic publication data based
+        on provided search criteria. The retrieved data is processed and organized into a Pandas DataFrame.
+        
+        Returns:
+            pd.DataFrame: A DataFrame containing processed academic publication data from the arXiv API.
+        """
 
         url = f'http://export.arxiv.org/api/query?search_query=all:{self.search_keyword}&start=0&max_results={self.number_of_papers}'
         data = requests.get(url)
