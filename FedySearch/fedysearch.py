@@ -5,6 +5,7 @@ import pandas as pd  # Library for data manipulation and analysis
 import streamlit as st
 from bs4 import BeautifulSoup
 
+
 # Using dataclass decorator to define the FedySearch class as a dataclass
 @dataclass
 class FedySearch:
@@ -14,7 +15,7 @@ class FedySearch:
 
 class Springer(FedySearch):
     # Function to call the API and retrieve the data
-    def Springer_API_Call(self)-> pd.Dataframe:
+    def Springer_API_Call(self):
         """
         Make API Call to Springer for Academic Publication Data
         
@@ -24,7 +25,7 @@ class Springer(FedySearch):
         Returns:
         pd.DataFrame: A DataFrame containing raw academic publication data from the Springer API.
         """
-        
+
         api_key = '790713ded66fe0dd637dd61f70925146'
         headers = {'Authorization': 'Bearer {}'.format(api_key)}  # Setting the authorization key in the headers
         search_api_url = 'https://api.springernature.com/metadata/json'  # URL for the API endpoint
@@ -46,12 +47,12 @@ class Springer(FedySearch):
             pd.DataFrame: A DataFrame containing processed publication data with columns
             for title, publication date, DOI, and abstract.
         """
-        
+
         processed_table = pd.DataFrame()
         messy_data = self.Springer_API_Call()
 
         processed_table['title'] = messy_data['title']
-       # processed_table['authors'] = messy_data['creators'].apply(lambda x: [i['creator'] for i in x])
+        # processed_table['authors'] = messy_data['creators'].apply(lambda x: [i['creator'] for i in x])
         processed_table['date'] = messy_data['publicationDate']
         processed_table['doi'] = messy_data['url'].apply(lambda x: x[0]['value'])
         processed_table['abstract'] = messy_data['abstract']
@@ -61,7 +62,7 @@ class Springer(FedySearch):
 
 class Arxiv(FedySearch):
 
-    def Arxiv_Processed_Table(self)-> pd.DataFrame:
+    def Arxiv_Processed_Table(self) -> pd.DataFrame:
         """
         Process Academic Publication Data from arXiv API
         
@@ -115,7 +116,6 @@ journal = st.radio('Select Journal', ['None', 'Springer', 'Arxiv'])
 keyword = st.text_input('Enter keywords or phrases')
 numpaper = st.slider('Select number of papers', 1, 100)
 
-
 if st.button('search'):
 
     if journal == "None":
@@ -128,6 +128,7 @@ if st.button('search'):
         app = Springer(keyword, numpaper)
         data = app.Springer_Processed_Table()
         st.dataframe(data)
+
 
         def convert_df(df):
             return df.to_csv(index=False).encode('utf-8')
@@ -146,6 +147,7 @@ if st.button('search'):
         app = Arxiv(keyword, numpaper)
         data = app.Arxiv_Processed_Table()
         st.dataframe(data)
+
 
         def convert_df(df):
             return df.to_csv(index=False).encode('utf-8')
